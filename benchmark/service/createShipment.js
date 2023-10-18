@@ -5,7 +5,7 @@ const { WorkloadModuleBase } = require('@hyperledger/caliper-core');
 /**
  * Workload module for creating medicine records in the supply chain tracking system.
  */
-class CreateMedicineWorkload extends WorkloadModuleBase {
+class CreateShipmentWorkload extends WorkloadModuleBase {
     /**
      * Initializes the workload module instance.
      */
@@ -20,18 +20,17 @@ class CreateMedicineWorkload extends WorkloadModuleBase {
      */
     async submitTransaction() {
         this.txIndex++;
-        const drugName = 'Medicine' + this.txIndex.toString();
-        const serialNo = 'SERIAL' + this.txIndex.toString();
-        const mfgDate = '2023-07-21'; // Set a random manufacturing date as needed.
-        const expDate = '2024-12-31'; // Set a random expiry date as needed.
-        const companyCRN = 'MAN001'; 
+        const buyerCRN = 'MAN001'; 
+        const drugName = 'Paracetamol'; 
+        const listOfAssets = ['001','002']
+        const transporterCRN = 'TRA01';
 
         let args = {
             contractId: 'medtracnet',
-            contractVersion: '1.1', // Replace with your actual contract version.
-            contractFunction: 'addDrug',
-            contractArguments: [drugName, serialNo, mfgDate, expDate, companyCRN],
-            timeout: 30 // Set the timeout value as needed.
+            contractVersion: '1.1', 
+            contractFunction: 'createShipment',
+            contractArguments: [buyerCRN, drugName, listOfAssets, transporterCRN],
+            timeout: 300 // Set the timeout value as needed.
         };
 
         await this.sutAdapter.sendRequests(args);
@@ -43,7 +42,7 @@ class CreateMedicineWorkload extends WorkloadModuleBase {
  * @return {WorkloadModuleInterface}
  */
 function createWorkloadModule() {
-    return new CreateMedicineWorkload();
+    return new CreateShipmentWorkload();
 }
 
 module.exports.createWorkloadModule = createWorkloadModule;

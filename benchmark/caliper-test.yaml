@@ -2,11 +2,19 @@ test:
   workers:
     number: 2
   rounds:
-    - label: Create a Medicine
+    - label: CreateMedicineRound
+      txNumber: 50
+      rateControl:
+        type: fixed-load
+        opts:
+          transactionLoad: 500
+      workload:
+        module: ../benchmark/service/createMedicine.js
+    - label: CreateShipmentRound
       txNumber: 5
       rateControl:
-          type: fixed-load
-          opts:
-            transactionLoad: 5
+        type: fixed-load
+        opts:
+          transactionLoad: 5
       workload:
-        module: ../benchmark/createMedicine.js
+        module: ../benchmark/service/createShipment.js

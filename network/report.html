@@ -128,13 +128,14 @@
                 <li>DLT: &nbsp<span style="font-weight: 500;">fabric</span></li>
                 <li>Name: &nbsp<span style="font-weight: 500;"></span></li>
                 <li>Description: &nbsp<span style="font-weight: 500;"></span></li>
-                <li>Benchmark Rounds: &nbsp<span style="font-weight: 500;">1</span></li>
+                <li>Benchmark Rounds: &nbsp<span style="font-weight: 500;">2</span></li>
                 <li><a href="#benchmarkInfo">Details</a></li>
             </ul>
             <ul>
                 <h3>&nbspBenchmark results</h3>
                 <li><a href="#benchmarksummary">Summary</a></li>
-                    <li><a href="#Create a Medicine">Create a Medicine</a></li>
+                    <li><a href="#CreateMedicineRound">CreateMedicineRound</a></li>
+                    <li><a href="#CreateShipmentRound">CreateShipmentRound</a></li>
             </ul>
             <ul>
                 <h3>&nbspSystem under test</h3>
@@ -152,28 +153,51 @@
                     </tr>
 
                     <tr>
-                         <td>Create a Medicine</td> <td>4</td> <td>0</td> <td>9.4</td> <td>2.12</td> <td>1.69</td> <td>1.91</td> <td>1.9</td>
+                         <td>CreateMedicineRound</td> <td>50</td> <td>0</td> <td>19.8</td> <td>1.76</td> <td>0.11</td> <td>0.45</td> <td>18.3</td>
+                    </tr>
+                    <tr>
+                         <td>CreateShipmentRound</td> <td>0</td> <td>4</td> <td>9.8</td> <td>0.00</td> <td>9007199254740.99</td> <td>-</td> <td>9.5</td>
                     </tr>
                 </table>
             </div>
-            <div style="border-bottom: 1px solid #d9d9d9; padding-bottom: 10px;" id="Create a Medicine">
-                <h2>Benchmark round: Create a Medicine</h2>
+            <div style="border-bottom: 1px solid #d9d9d9; padding-bottom: 10px;" id="CreateMedicineRound">
+                <h2>Benchmark round: CreateMedicineRound</h2>
+                <p></p>
+                <pre style="overflow: visible;white-space: pre-wrap;max-height:100%;">rateControl:
+  type: fixed-load
+  opts:
+    transactionLoad: 500
+</pre>
+                        <h3>Performance metrics for CreateMedicineRound</h3>
+                            <table style="min-width: 100%;">
+                                <tr>
+                                     <th>Name</th> <th>Succ</th> <th>Fail</th> <th>Send Rate (TPS)</th> <th>Max Latency (s)</th> <th>Min Latency (s)</th> <th>Avg Latency (s)</th> <th>Throughput (TPS)</th>
+                                </tr>
+                                <tr>
+                                     <td>CreateMedicineRound</td> <td>50</td> <td>0</td> <td>19.8</td> <td>1.76</td> <td>0.11</td> <td>0.45</td> <td>18.3</td>
+                                </tr>
+                            </table>
+                        <h3>Resource utilization for CreateMedicineRound</h3>
+            </div>
+
+            <div style="border-bottom: 1px solid #d9d9d9; padding-bottom: 10px;" id="CreateShipmentRound">
+                <h2>Benchmark round: CreateShipmentRound</h2>
                 <p></p>
                 <pre style="overflow: visible;white-space: pre-wrap;max-height:100%;">rateControl:
   type: fixed-load
   opts:
     transactionLoad: 5
 </pre>
-                        <h3>Performance metrics for Create a Medicine</h3>
+                        <h3>Performance metrics for CreateShipmentRound</h3>
                             <table style="min-width: 100%;">
                                 <tr>
                                      <th>Name</th> <th>Succ</th> <th>Fail</th> <th>Send Rate (TPS)</th> <th>Max Latency (s)</th> <th>Min Latency (s)</th> <th>Avg Latency (s)</th> <th>Throughput (TPS)</th>
                                 </tr>
                                 <tr>
-                                     <td>Create a Medicine</td> <td>4</td> <td>0</td> <td>9.4</td> <td>2.12</td> <td>1.69</td> <td>1.91</td> <td>1.9</td>
+                                     <td>CreateShipmentRound</td> <td>0</td> <td>4</td> <td>9.8</td> <td>0.00</td> <td>9007199254740.99</td> <td>-</td> <td>9.5</td>
                                 </tr>
                             </table>
-                        <h3>Resource utilization for Create a Medicine</h3>
+                        <h3>Resource utilization for CreateShipmentRound</h3>
             </div>
 
             <div style="border-bottom: 1px solid #d9d9d9; padding-bottom: 10px;">
@@ -182,14 +206,22 @@
                 <pre id="benchmarkInfo" style="overflow: visible;white-space: pre-wrap;max-height:100%;">workers:
   number: 2
 rounds:
-  - label: Create a Medicine
+  - label: CreateMedicineRound
+    txNumber: 50
+    rateControl:
+      type: fixed-load
+      opts:
+        transactionLoad: 500
+    workload:
+      module: ..&#x2F;benchmark&#x2F;service&#x2F;createMedicine.js
+  - label: CreateShipmentRound
     txNumber: 5
     rateControl:
       type: fixed-load
       opts:
         transactionLoad: 5
     workload:
-      module: ..&#x2F;benchmark&#x2F;createMedicine.js
+      module: ..&#x2F;benchmark&#x2F;service&#x2F;createShipment.js
 </pre>
                 <h3>SUT</h3>
                 <pre id="sutdetails">not provided</pre>
