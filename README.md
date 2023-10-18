@@ -133,14 +133,14 @@ Here we register all the organisations and medicines. These requests might take 
 - Click Send on 'transporter-fedex-registerCompany' to Register FedEx : Transporter (TRA001)
 - Click Send on 'transporter-bluedart-registerCompany' to Register Blue Dart : Transporter(TRA002)
 
-Now to register medicines/drugs
+2. Now to register medicines/drugs
 
 - Click Send on 'manufacturer-Paracetamol-001-addDrug' to Add Paracetemol : 001 (serial number)
 - Click Send on 'manufacturer-Paracetamol-002-addDrug' to Add Paracetemol : 002 (serial number)
 - Click Send on 'manufacturer-Paracetamol-003-addDrug' to Add Paracetemol : 003 (serial number)
 - Click Send on 'manufacturer-Paracetamol-004-addDrug' to Add Paracetemol : 004 (serial number)
 
-2. Then on the Supply chain folder 
+3. Then on the Supply chain folder 
 - Click Send on 'part-a-1-distributor-createPO' to create purchase order of 3 paracetemol from manfacturer (MAN001) to distributor (DIST001)
 - Click Send on 'part-a-2-manufacturer-createShipment' to create shipment for 3 paracetemol(001, 002, 003) from manfacturer (MAN001) to transporter (TRA001)
 - Click Send on 'part-a-3-transporter-updateShipment' to update shipment of paracetemols from disptributor (DIST001) to transporter(TRA001)
@@ -149,4 +149,6 @@ Now to register medicines/drugs
 - Click Send on 'part-b-3-transporter-updateShipment' to update shipment of paracetemols from transporter(TRA002) to retailer (RET002)
 - Click Send on 'part-c-1-retailer-retailDrug' to sell drug to end consumer from retailer(RET001) to consumer(with aadhar 'Sahil')
 
-
+4. Now view history or current state go to History folder
+- Click Send on 'viewHistory' to view history of Paracetemol of serial number 001
+- Click Send on 'viewDrugCurrentState' to view the current state of medicine
