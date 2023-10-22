@@ -1,0 +1,328 @@
+name: Fabric
+version: "1.0"
+
+mutual-tls: false
+
+caliper:
+  blockchain: fabric
+  command:
+    start: docker-compose -f '../network/docker-compose-e2e.yaml' up -d;sleep 3s
+    end: docker-compose -f '../network/docker-compose-e2e.yaml' down;docker rm $(docker ps -aq);docker rmi $(docker images dev* -q)
+
+info:
+  Version: 1.1.0
+  Size: 5 Orgs with 2 Peers
+  Orderer: Solo
+  Distribution: Single Host
+
+clients:
+  client.manufacturer:
+    client:
+      organization: manufacturer
+      connection:
+        timeout:
+          peer:
+            endorser: 300
+            eventHub: 300
+            eventReg: 300
+          orderer: 300
+      credentialStore:
+        path: "/tmp/hfc-kvs/org1"
+        cryptoStore:
+          path: "/tmp/hfc-cvs/org1"
+      clientPrivateKey:
+        path: '../network/crypto-config/peerOrganizations/manufacturer.medtrac-network.com/users/User1@manufacturer.medtrac-network.com/tls/client.key'
+      clientSignedCert:
+        path: '../network/crypto-config/peerOrganizations/manufacturer.medtrac-network.com/users/User1@manufacturer.medtrac-network.com/tls/client.crt'
+  client.distributor:
+    client:
+      organization: distributor
+      connection:
+        timeout:
+          peer:
+            endorser: 300
+            eventHub: 300
+            eventReg: 300
+          orderer: 300
+      credentialStore:
+        path: "/tmp/hfc-kvs/org1"
+        cryptoStore:
+          path: "/tmp/hfc-cvs/org1"
+      clientPrivateKey:
+        path: '../network/crypto-config/peerOrganizations/distributor.medtrac-network.com/users/User1@distributor.medtrac-network.com/tls/client.key'
+      clientSignedCert:
+        path: '../network/crypto-config/peerOrganizations/distributor.medtrac-network.com/users/User1@distributor.medtrac-network.com/tls/client.crt'
+  client.transporter:
+    client:
+      organization: transporter
+      connection:
+        timeout:
+          peer:
+            endorser: 300
+            eventHub: 300
+            eventReg: 300
+          orderer: 300
+      credentialStore:
+        path: "/tmp/hfc-kvs/org1"
+        cryptoStore:
+          path: "/tmp/hfc-cvs/org1"
+      clientPrivateKey:
+        path: '../network/crypto-config/peerOrganizations/transporter.medtrac-network.com/users/User1@transporter.medtrac-network.com/tls/client.key'
+      clientSignedCert:
+        path: '../network/crypto-config/peerOrganizations/transporter.medtrac-network.com/users/User1@transporter.medtrac-network.com/tls/client.crt'
+  client.retailer:
+    client:
+      organization: retailer
+      connection:
+        timeout:
+          peer:
+            endorser: 300
+            eventHub: 300
+            eventReg: 300
+          orderer: 300
+      credentialStore:
+        path: "/tmp/hfc-kvs/org1"
+        cryptoStore:
+          path: "/tmp/hfc-cvs/org1"
+      clientPrivateKey:
+        path: '../network/crypto-config/peerOrganizations/retailer.medtrac-network.com/users/User1@retailer.medtrac-network.com/tls/client.key'
+      clientSignedCert:
+        path: '../network/crypto-config/peerOrganizations/retailer.medtrac-network.com/users/User1@retailer.medtrac-network.com/tls/client.crt'
+  client.consumer:
+    client:
+      organization: consumer
+      connection:
+        timeout:
+          peer:
+            endorser: 300
+            eventHub: 300
+            eventReg: 300
+          orderer: 300
+      credentialStore:
+        path: "/tmp/hfc-kvs/org1"
+        cryptoStore:
+          path: "/tmp/hfc-cvs/org1"
+      clientPrivateKey:
+        path: '../network/crypto-config/peerOrganizations/consumer.medtrac-network.com/users/User1@consumer.medtrac-network.com/tls/client.key'
+      clientSignedCert:
+        path: '../network/crypto-config/peerOrganizations/consumer.medtrac-network.com/users/User1@consumer.medtrac-network.com/tls/client.crt'
+
+
+channels:
+  medtracchannel:
+    configBinary: '../network/channel-artifacts/channel.tx'
+    created: false
+    orderers:
+    - orderer.medtrac-network.com
+    peers:
+      peer0.manufacturer.medtrac-network.com:
+        endorsingPeer: true
+        chaincodeQuery: true
+        ledgerQuery: true
+        eventSource: true
+      peer1.manufacturer.medtrac-network.com:
+        endorsingPeer: false
+        chaincodeQuery: false
+        ledgerQuery: true
+        eventSource: false
+      peer0.distributor.medtrac-network.com:
+        endorsingPeer: true
+        chaincodeQuery: true
+        ledgerQuery: true
+        eventSource: true
+      peer1.distributor.medtrac-network.com:
+        endorsingPeer: false
+        chaincodeQuery: false
+        ledgerQuery: true
+        eventSource: false
+      peer0.retailer.medtrac-network.com:
+        endorsingPeer: true
+        chaincodeQuery: true
+        ledgerQuery: true
+        eventSource: true
+      peer1.retailer.medtrac-network.com:
+        endorsingPeer: false
+        chaincodeQuery: false
+        ledgerQuery: true
+        eventSource: false
+      peer0.transporter.medtrac-network.com:
+        endorsingPeer: true
+        chaincodeQuery: true
+        ledgerQuery: true
+        eventSource: true
+      peer1.transporter.medtrac-network.com:
+        endorsingPeer: false
+        chaincodeQuery: false
+        ledgerQuery: true
+        eventSource: false
+      peer0.consumer.medtrac-network.com:
+        endorsingPeer: true
+        chaincodeQuery: true
+        ledgerQuery: true
+        eventSource: true
+      peer1.consumer.medtrac-network.com:
+        endorsingPeer: false
+        chaincodeQuery: false
+        ledgerQuery: true
+        eventSource: false
+      
+    chaincodes:
+    - id: medtraccontract
+      version: v0
+      targetPeers:
+      - peer0.manufacturer.medtrac-network.com
+      # Add other target peers as needed
+      language: node
+      path: '../chaincode/medtrac-contract.js'
+      init: []
+      function: init
+      endorsement-policy:
+        identities:
+        - role:
+            name: member
+            mspId: manufacturerMSP
+        # Add other roles as needed
+        policy:
+          2-of:
+          - signed-by: 0
+
+# Add organization, orderer, peer, and certificateAuthority sections as in the provided example, but with your network's specifics.
+
+organizations:
+  manufacturer:
+    mspid: manufacturerMSP
+    peers:
+    - peer0.manufacturer.medtrac-network.com
+    - peer1.manufacturer.medtrac-network.com
+    certificateAuthorities:
+      - ca.manufacturer.medtrac-network.com
+  distributor:
+    mspid: distributorMSP
+    peers:
+      - peer0.distributor.medtrac-network.com
+      - peer1.distributor.medtrac-network.com
+    certificateAuthorities:
+      - ca.distributor.medtrac-network.com
+  retailer:
+    mspid: retailerMSP
+    peers:
+      - peer0.retailer.medtrac-network.com
+      - peer1.retailer.medtrac-network.com
+    certificateAuthorities:
+      - ca.retailer.medtrac-network.com
+  transporter:
+    mspid: transporterMSP
+    peers:
+      - peer0.transporter.medtrac-network.com
+      - peer1.transporter.medtrac-network.com
+    certificateAuthorities:
+      - ca.transporter.medtrac-network.com
+  consumer:
+    mspid: consumerMSP
+    peers:
+      - peer0.consumer.medtrac-network.com
+      - peer1.consumer.medtrac-network.com
+    certificateAuthorities:
+      - ca.consumer.medtrac-network.com
+
+orderers:
+  orderer.medtrac-network.com:
+    url: grpc://localhost:7050
+    grpcOptions:
+      ssl-target-name-override: orderer.medtrac-network.com
+
+
+peers:
+  peer0.manufacturer.medtrac-network.com:
+    url: grpc://localhost:7051
+    grpcOptions:
+      ssl-target-name-override: peer0.manufacturer.medtrac-network.com
+      grpc.keepalive_time_ms: 120001
+  peer1.manufacturer.medtrac-network.com:
+    url: grpc://localhost:8051
+    grpcOptions:
+      ssl-target-name-override: peer1.manufacturer.medtrac-network.com
+      grpc.keepalive_time_ms: 120001
+  peer0.distributor.medtrac-network.com:
+    url: grpc://localhost:9051
+    grpcOptions:
+      ssl-target-name-override: peer0.distributor.medtrac-network.com
+      grpc.keepalive_time_ms: 120001
+  peer1.distributor.medtrac-network.com:
+    url: grpc://localhost:10051
+    grpcOptions:
+      ssl-target-name-override: peer1.distributor.medtrac-network.com
+      grpc.keepalive_time_ms: 120001
+  peer0.transporter.medtrac-network.com:
+    url: grpc://localhost:9051
+    grpcOptions:
+      ssl-target-name-override: peer0.transporter.medtrac-network.com
+      grpc.keepalive_time_ms: 120001
+  peer1.transporter.medtrac-network.com:
+    url: grpc://localhost:10051
+    grpcOptions:
+      ssl-target-name-override: peer1.transporter.medtrac-network.com
+      grpc.keepalive_time_ms: 120001
+  peer0.retailer.medtrac-network.com:
+    url: grpc://localhost:9051
+    grpcOptions:
+      ssl-target-name-override: peer0.retailer.medtrac-network.com
+      grpc.keepalive_time_ms: 120001
+  peer1.retailer.medtrac-network.com:
+    url: grpc://localhost:10051
+    grpcOptions:
+      ssl-target-name-override: peer1.retailer.medtrac-network.com
+      grpc.keepalive_time_ms: 120001
+  peer0.consumer.medtrac-network.com:
+    url: grpc://localhost:9051
+    grpcOptions:
+      ssl-target-name-override: peer0.consumer.medtrac-network.com
+      grpc.keepalive_time_ms: 120001
+  peer1.consumer.medtrac-network.com:
+    url: grpc://localhost:10051
+    grpcOptions:
+      ssl-target-name-override: peer1.consumer.medtrac-network.com
+      grpc.keepalive_time_ms: 120001
+
+
+certificateAuthorities:
+  ca.manufacturer.medtrac-network.com:
+    url: http://localhost:7054
+    httpOptions:
+      verify: false
+    registrar:
+      - enrollId: admin
+        enrollSecret: adminpw
+    caName: ca.manufacturer.medtrac-network.com
+  ca.distributor.medtrac-network.com:
+    url: http://localhost:8054
+    httpOptions:
+      verify: false
+    registrar:
+      - enrollId: admin
+        enrollSecret: adminpw
+    caName: ca.distributor.medtrac-network.com
+  ca.transporter.medtrac-network.com:
+    url: http://localhost:11054
+    httpOptions:
+      verify: false
+    registrar:
+      - enrollId: admin
+        enrollSecret: adminpw
+    caName: ca.transporter.medtrac-network.com
+  ca.retailer.medtrac-network.com:
+    url: http://localhost:9054
+    httpOptions:
+      verify: false
+    registrar:
+      - enrollId: admin
+        enrollSecret: adminpw
+    caName: ca.retailer.medtrac-network.com  
+  ca.consumer.medtrac-network.com:
+    url: http://localhost:10054
+    httpOptions:
+      verify: false
+    registrar:
+      - enrollId: admin
+        enrollSecret: adminpw
+    caName: ca.consumer.medtrac-network.com
