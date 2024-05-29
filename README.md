@@ -60,8 +60,11 @@ Similarly navigate to the scripts folder
 and change those files' permissions as such
 
 > chmod +x bootstrap.sh
+
 > chmod +x installChaincode.sh
+
 > chmod +x updateChaincode.sh
+
 > chmod +x utils.sh
 
 
