@@ -26,10 +26,36 @@ There are five stakeholders organisation
 ##### 3. To set-up the network following steps needs to be taken
 
 ###### 1. Make sure node, npm, docker and postman are already installed
+
+Use node version 8.3.1 if not installed then install nvm using this command 
+
+> curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
+
+then restart terminal
+
+then use this command to choose node version as 8.3.1
+
+> nvm use 8.3.1
+
+
 ###### 2. Install hyperledger fabric using the following command and make sure that fabric
 version 1.4.7 and fabric-ca version 1.5.1 is the latest among the docker images
 
 > curl -sSL https://bit.ly/2ysbOFE | bash -s -- 1.4.7 1.5.1
+
+Also install fabric-tools using command
+
+> docker pull hyperledger/fabric-tools:1.4.7
+
+then get its image id by using follwing command
+
+> docker images
+
+and tag it to latest as such
+
+> docker tag "imageid" hyperledger/fabric-tools:latest
+
+here "imageid" is the id that is shown in the previous command
 
 ###### 3. You can check the docker images version using the docker command
 
